@@ -1,0 +1,277 @@
+---
+import ScrollAnimation from './ScrollAnimation.jsx';
+import { projects } from '../data/projects.js';
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0 }
+};
+---
+
+<section id="proyectos" class="projects-section">
+    <div class="projects-inner">
+        <ScrollAnimation className="projects-header" delay={0.2} client:load as="div">
+            <span class="projects-badge">Hecho en Chitagá</span>
+            <h2 class="projects-title">Proyectos que resuelven problemas reales de aquí</h2>
+            <p class="projects-subtitle">No son ejercicios académicos. Son herramientas que queremos construir juntos para nuestro municipio y su gente.</p>
+        </ScrollAnimation>
+
+        <div class="projects-grid">
+            {projects.map((project, index) => (
+                <ScrollAnimation
+                    delay={0.3 + index * 0.1}
+                    variants={cardVariants}
+                    client:load
+                    as="div"
+                >
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div class="project-image-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <g set:html={project.iconSvg} />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <h3>{project.title}</h3>
+                            <p>{project.description}</p>
+                            <div class="project-tags">
+                                {project.tags.map((tag) => (
+                                    <span class="project-tag">{tag}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </ScrollAnimation>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    .projects-section {
+        padding: 5rem 2rem;
+        background: #ffffff;
+    }
+
+    :global(.dark) .projects-section {
+        background: #191919;
+    }
+
+    @media (min-width: 768px) {
+        .projects-section {
+            padding: 6rem 3rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .projects-section {
+            padding: 8rem 4rem;
+        }
+    }
+
+    .projects-inner {
+        max-width: 1200px;
+        display: grid;
+        gap: 2rem;
+        margin: 0 auto;
+    }
+
+    /* :global() needed because this class is on a React-rendered element */
+    :global(.projects-header) {
+        text-align: center;
+        margin-bottom: 3.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .projects-badge {
+        display: inline-block;
+        width: fit-content;
+        padding: 0.3rem 0.85rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 9999px;
+        color: var(--color-green-dark);
+        border: 1px solid var(--color-green-dark);
+        font-family: var(--font-pop);
+    }
+
+    :global(.dark) .projects-badge {
+        color: var(--color-orange);
+        border-color: var(--color-orange);
+    }
+
+    .projects-title {
+        font-family: var(--font-montserrat);
+        font-weight: 700;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        color: var(--color-green-dark);
+    }
+
+    :global(.dark) .projects-title {
+        color: var(--color-white);
+    }
+
+    @media (min-width: 768px) {
+        .projects-title {
+            font-size: 2.25rem;
+        }
+    }
+
+    .projects-subtitle {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #6b7280;
+        max-width: 520px;
+    }
+
+    :global(.dark) .projects-subtitle {
+        color: #9ca3af;
+    }
+
+    .projects-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .projects-grid > * {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (min-width: 640px) {
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .projects-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .projects-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+    }
+
+    .project-card {
+        border-radius: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #ffffff;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    :global(.dark) .project-card {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    :global(.dark) .project-card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-image {
+        width: 100%;
+        height: 180px;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    :global(.dark) .project-image {
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .project-image-placeholder {
+        width: 3rem;
+        height: 3rem;
+        color: #9ca3af;
+    }
+
+    :global(.dark) .project-image-placeholder {
+        color: #6b7280;
+    }
+
+    .project-image-placeholder svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .project-body {
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+    }
+
+    .project-body h3 {
+        font-family: var(--font-montserrat);
+        font-weight: 600;
+        font-size: 1.05rem;
+        color: var(--color-green-dark);
+    }
+
+    :global(.dark) .project-body h3 {
+        color: var(--color-white);
+    }
+
+    .project-body p {
+        font-family: var(--font-sans);
+        font-size: 0.875rem;
+        line-height: 1.65;
+        color: #6b7280;
+    }
+
+    :global(.dark) .project-body p {
+        color: #9ca3af;
+    }
+
+    .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+    }
+
+    .project-tag {
+        font-family: var(--font-pop);
+        font-size: 0.7rem;
+        font-weight: 500;
+        padding: 0.2rem 0.65rem;
+        border-radius: 9999px;
+        background: rgba(185, 58, 5, 0.08);
+        color: var(--color-orange);
+    }
+
+    :global(.dark) .project-tag {
+        background: rgba(210, 96, 41, 0.15);
+    }
+</style>

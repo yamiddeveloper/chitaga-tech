@@ -1,0 +1,110 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/taller-chitaga-turismo.css";
+
+const enabled = false;
+
+const starterStructure = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+</body>
+</html>`;
+---
+
+<Layout
+  title="Taller práctico: Crea tu web básica en Chitagá"
+  description="Ejercicio guiado para construir una página web simple y bonita sobre un lugar turístico de Chitagá, con editor y vista previa en vivo."
+  image="/og-image.png"
+>
+  {!enabled && (
+    <section style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:2rem;">
+      <h1 style="font-size:1.5rem;margin-bottom:1rem;">Esta página no está disponible temporalmente</h1>
+      <p style="color:var(--text-secondary,#666);max-width:400px;">Estamos revisando el contenido. Volverá pronto.</p>
+      <a href="/" style="margin-top:1.5rem;color:var(--accent,#2563eb);">Volver al inicio</a>
+    </section>
+  )}
+
+  {enabled && (
+  <section class="workshop-hero">
+    <div class="workshop-shell">
+      <p class="workshop-kicker">Taller de 30 minutos</p>
+      <h1>Construye tu primera web y da a conocer Chitagá al mundo</h1>
+      <p>
+        Aquí pueden escribir HTML y CSS dentro de `chitaga.tech`, previsualizar el resultado
+        y enviarlo sin salir de la plataforma.
+      </p>
+      <a href="#editor" class="workshop-btn">Empezar ejercicio</a>
+    </div>
+  </section>
+
+  <section class="workshop-section">
+    <div class="workshop-shell workshop-grid">
+      <article class="workshop-card">
+        <h2>Objetivo de clase</h2>
+        <p>
+          Aprender la estructura de una web: etiqueta base, sección principal, estilos y diseño
+          adaptable para celular.
+        </p>
+      </article>
+      <article class="workshop-card">
+        <h2>Contenido sugerido</h2>
+        <p>
+          Título del lugar turístico, descripción corta, una tarjeta con razones para visitar y
+          una paleta de colores simple.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="editor" class="workshop-section workshop-section-alt">
+    <div class="workshop-shell">
+      <div class="workshop-headline">
+        <p>Guía del ejercicio</p>
+        <h2>Lo que vamos a construir en clase</h2>
+      </div>
+
+      <article class="workshop-card workshop-guide">
+        <h3>Pasos</h3>
+        <ol class="exercise-steps">
+          <li>Crear estructura base: `html`, `head` y `body`.</li>
+          <li>Agregar un título principal del lugar turístico.</li>
+          <li>Crear una sección con descripción y una tarjeta.</li>
+          <li>Aplicar colores, fuente y espaciado con CSS.</li>
+          <li>Adaptar para móvil con una media query simple.</li>
+        </ol>
+        <p class="exercise-note">Los participantes previsualizan su código aquí y tú revisas entregas desde el panel admin.</p>
+      </article>
+
+      <div class="editor-layout">
+        <article class="workshop-card">
+          <label for="code-editor" class="editor-label">Editor vacío (HTML + CSS)</label>
+          <div class="editor-shell">
+            <pre id="code-highlight" class="editor-highlight" aria-hidden="true"></pre>
+            <textarea id="code-editor" class="editor-area" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">{starterStructure}</textarea>
+          </div>
+
+          <div class="editor-actions">
+            <button id="preview-btn" class="workshop-btn workshop-btn-soft" type="button">Previsualizar</button>
+            <button id="save-btn" type="button" hidden aria-hidden="true" tabindex="-1">Guardar</button>
+            <button id="send-btn" class="workshop-btn" type="button">Subir código</button>
+          </div>
+
+          <p id="editor-feedback" class="editor-feedback"></p>
+        </article>
+
+        <article class="workshop-card">
+          <h3>Vista previa</h3>
+          <iframe id="preview-frame" title="Vista previa del código del participante" sandbox="allow-scripts"></iframe>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline src="/scripts/taller-editor.js?v=20260320"></script>
+  )}
+</Layout>

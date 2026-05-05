@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Completo del Formulario</title>
+    <style>
+        /* Estilos del modal */
+        .evento-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .evento-popup.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .evento-popup-content {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .evento-popup-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .evento-popup-title {
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #184014;
+            text-align: center;
+            margin: 0 0 1rem 0;
+        }
+
+        .evento-popup-text {
+            font-family: sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4b5563;
+            text-align: center;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .evento-popup-button {
+            display: block;
+            width: 100%;
+            padding: 0.875rem;
+            font-family: sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #B93A05;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        /* Estilos del formulario */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .evento-moderno-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .evento-moderno-submit {
+            width: 100%;
+            padding: 14px;
+            background: #B93A05;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        .evento-moderno-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .ef-feedback {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .ef-feedback.error {
+            background: #fee;
+            color: #c00;
+            border: 1px solid #fcc;
+        }
+        
+        .ef-feedback.success {
+            background: #efe;
+            color: #090;
+            border: 1px solid #cfc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Completo del Sistema de Inscripción</h1>
+    
+    <div style="margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 8px;">
+        <h3>Estado del sistema:</h3>
+        <div id="system-status">Cargando...</div>
+    </div>
+    
+    <!-- Formulario de prueba -->
+    <div style="border: 2px solid #184014; border-radius: 12px; padding: 20px; margin: 20px 0;">
+        <h2 style="color: #184014;">Formulario de Inscripción</h2>
+        <p>Deja tu correo y listo. Te mandamos toda la info.</p>
+        
+        <form id="evento-form" data-slug="introduccion-programacion" data-fields='[{"name":"email","label":"Correo electrónico","type":"email","required":true,"placeholder":"tu@correo.com"}]'>
+            <input type="email" id="ef-email" name="email" placeholder="tu@correo.com" required class="evento-moderno-input">
+            <button type="submit" id="ef-submit-btn" class="evento-moderno-submit">
+                <span>¡Quiero entrar!</span>
+            </button>
+        </form>
+        
+        <div id="ef-feedback" class="ef-feedback"></div>
+        
+        <p style="font-size: 14px; color: #666; margin-top: 15px;">
+            Te contactaremos solo con la información del taller. Sin spam.
+        </p>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div id="evento-success-popup" class="evento-popup">
+        <div class="evento-popup-content">
+            <button id="evento-popup-close" class="evento-popup-close" aria-label="Cerrar" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">
+                ×
+            </button>
+            <div class="evento-popup-icon">🎉</div>
+            <h3 class="evento-popup-title">¡Inscripción exitosa!</h3>
+            <p class="evento-popup-text" id="success-message">
+                Tu inscripción ha sido registrada correctamente.
+            </p>
+            <button id="evento-popup-close-btn" class="evento-popup-button">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de error -->
+    <div id="evento-error-popup" class="evento-popup">
+        <div class="evento-popup-content">
+            <button id="evento-error-popup-close" class="evento-popup-close" aria-label="Cerrar" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">
+                ×
+            </button>
+            <div class="evento-popup-icon">⚠️</div>
+            <h3 class="evento-popup-title">Error en la inscripción</h3>
+            <p id="evento-error-message" class="evento-popup-text">
+                Hubo un problema al procesar tu inscripción.
+            </p>
+            <button id="evento-error-retry" class="evento-popup-button">Reintentar</button>
+            <button id="evento-error-popup-close-btn" class="evento-popup-button" style="background: #666; margin-top: 10px;">Cerrar</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+        <h3>Logs de depuración:</h3>
+        <div id="debug-logs" style="height: 200px; overflow-y: auto; background: #222; color: #0f0; padding: 10px; font-family: monospace; font-size: 12px;"></div>
+    </div>
+
+    <script>
+        // Función para agregar logs
+        function debugLog(message) {
+            const logs = document.getElementById('debug-logs');
+            logs.innerHTML += '> ' + message + '\\n';
+            logs.scrollTop = logs.scrollHeight;
+            console.log(message);
+        }
+        
+        // Verificar estado del sistema
+        function checkSystemStatus() {
+            debugLog('=== INICIANDO TEST DEL SISTEMA ===');
+            
+            // Verificar que los elementos existan
+            const form = document.getElementById('evento-form');
+            const successModal = document.getElementById('evento-success-popup');
+            const errorModal = document.getElementById('evento-error-popup');
+            
+            debugLog('Formulario encontrado: ' + (form ? 'SÍ' : 'NO'));
+            debugLog('Modal de éxito encontrado: ' + (successModal ? 'SÍ' : 'NO'));
+            debugLog('Modal de error encontrado: ' + (errorModal ? 'SÍ' : 'NO'));
+            
+            // Verificar datos del formulario
+            if (form) {
+                debugLog('Slug del formulario: ' + form.dataset.slug);
+                debugLog('Fields del formulario: ' + form.dataset.fields);
+            }
+            
+            // Probar conexión a API
+            fetch('http://localhost:4324/api/health')
+                .then(response => response.json())
+                .then(data => {
+                    debugLog('✓ API conectada: ' + JSON.stringify(data));
+                    document.getElementById('system-status').innerHTML = 
+                        '<span style="color: green;">✓ Sistema funcionando correctamente</span>';
+                })
+                .catch(err => {
+                    debugLog('✗ Error conectando a API: ' + err);
+                    document.getElementById('system-status').innerHTML = 
+                        '<span style="color: red;">✗ Error conectando al servidor</span>';
+                });
+        }
+        
+        // Cargar el JavaScript del formulario (versión simplificada)
+        function loadFormJS() {
+            debugLog('Cargando lógica del formulario...');
+            
+            const API = 'http://localhost:4324';
+            const form = document.getElementById('evento-form');
+            const btn = document.getElementById('ef-submit-btn');
+            const feedback = document.getElementById('ef-feedback');
+            
+            if (!form || !btn) {
+                debugLog('ERROR: Elementos del formulario no encontrados');
+                return;
+            }
+            
+            // Parsear fields
+            let fields;
+            try {
+                fields = JSON.parse(form.dataset.fields);
+                debugLog('Fields parseados: ' + fields.length + ' campo(s)');
+            } catch (e) {
+                debugLog('ERROR parseando fields: ' + e);
+                return;
+            }
+            
+            // Función helper
+            function $(id) { return document.getElementById(id); }
+            
+            // Función para mostrar modal de éxito
+            function showSuccessModal() {
+                const popup = $('evento-success-popup');
+                if (popup) {
+                    popup.classList.add('is-visible');
+                    debugLog('✓ Modal de éxito mostrado');
+                } else {
+                    debugLog('✗ Modal de éxito NO encontrado');
+                }
+            }
+            
+            // Función para mostrar modal de error
+            function showErrorModal(message) {
+                const popup = $('evento-error-popup');
+                const messageEl = $('evento-error-message');
+                if (popup && messageEl) {
+                    messageEl.textContent = message;
+                    popup.classList.add('is-visible');
+                    debugLog('✓ Modal de error mostrado: ' + message);
+                } else {
+                    debugLog('✗ Modal de error NO encontrado');
+                }
+            }
+            
+            // Manejador de envío del formulario
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                debugLog('Formulario enviado...');
+                
+                const email = document.getElementById('ef-email').value.trim();
+                debugLog('Email ingresado: ' + email);
+                
+                if (!email) {
+                    showErrorModal('Por favor ingresa tu correo electrónico');
+                    return;
+                }
+                
+                // Validar formato de email
+                if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+                    showErrorModal('Por favor ingresa un correo electrónico válido');
+                    return;
+                }
+                
+                // Deshabilitar botón
+                btn.disabled = true;
+                btn.innerHTML = '<span>Enviando...</span>';
+                feedback.textContent = '';
+                feedback.className = 'ef-feedback';
+                
+                // Enviar datos a la API
+                debugLog('Enviando datos a API: ' + API + '/api/events/introduccion-programacion/register');
+                
+                fetch(API + '/api/events/introduccion-programacion/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                })
+                .then(response => {
+                    debugLog('Respuesta recibida, status: ' + response.status);
+                    return response.json().then(data => ({ ok: response.ok, data: data }));
+                })
+                .then(result => {
+                    debugLog('Resultado: ' + JSON.stringify(result));
+                    
+                    if (result.ok) {
+                        // Éxito: mostrar modal
+                        showSuccessModal();
+                        form.reset();
+                        debugLog('✓ Inscripción exitosa');
+                    } else {
+                        // Error: mostrar modal de error
+                        showErrorModal(result.data.error || 'Error al enviar la inscripción');
+                        debugLog('✗ Error en inscripción: ' + result.data.error);
+                    }
+                })
+                .catch(err => {
+                    debugLog('✗ Error de conexión: ' + err);
+                    showErrorModal('Error de conexión. Por favor, intenta nuevamente.');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>¡Quiero entrar!</span>';
+                });
+            });
+            
+            // Manejadores para cerrar modales
+            document.getElementById('evento-popup-close').addEventListener('click', function() {
+                $('evento-success-popup').classList.remove('is-visible');
+            });
+            
+            document.getElementById('evento-popup-close-btn').addEventListener('click', function() {
+                $('evento-success-popup').classList.remove('is-visible');
+            });
+            
+            document.getElementById('evento-error-popup-close').addEventListener('click', function() {
+                $('evento-error-popup').classList.remove('is-visible');
+            });
+            
+            document.getElementById('evento-error-popup-close-btn').addEventListener('click', function() {
+                $('evento-error-popup').classList.remove('is-visible');
+            });
+            
+            document.getElementById('evento-error-retry').addEventListener('click', function() {
+                $('evento-error-popup').classList.remove('is-visible');
+                setTimeout(() => {
+                    document.getElementById('ef-submit-btn').click();
+                }, 300);
+            });
+            
+            // Cerrar al hacer clic fuera del modal
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'evento-success-popup') {
+                    $('evento-success-popup').classList.remove('is-visible');
+                }
+                if (e.target.id === 'evento-error-popup') {
+                    $('evento-error-popup').classList.remove('is-visible');
+                }
+            });
+            
+            debugLog('✓ Lógica del formulario cargada correctamente');
+        }
+        
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            checkSystemStatus();
+            loadFormJS();
+        });
+    </script>
+</body>
+</html>

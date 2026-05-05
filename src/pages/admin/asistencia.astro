@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { events } from '../../data/events.js';
+import '../../styles/admin-asistencia.css';
+
+const eventsMeta = events.map((event) => ({
+    slug: event.slug,
+    title: event.title,
+    date: event.date,
+    time: event.time,
+    capacity: event.capacity,
+    status: event.status,
+    fields: event.fields.map((f) => ({ name: f.name, label: f.label })),
+}));
+---
+
+<Layout
+    title="Lista de asistencia — Chitagá Tech"
+    description="Panel privado para controlar la asistencia de los participantes en eventos de Chitagá Tech."
+>
+    <section class="att-hero">
+        <div class="att-hero-inner">
+            <div class="att-hero-tag">Panel privado</div>
+            <h1>Lista de asistencia</h1>
+            <p>Controla quién asiste a cada evento. Ingresa la contraseña de administrador para comenzar.</p>
+        </div>
+    </section>
+
+    <main class="att-main" data-events={JSON.stringify(eventsMeta)}>
+        <!-- Auth gate -->
+        <section id="att-gate" class="att-card">
+            <form id="att-auth-form" class="att-auth-form" autocomplete="off">
+                <div class="att-field">
+                    <label for="att-password">Contraseña</label>
+                    <input id="att-password" name="password" type="password" required placeholder="Clave de administrador" />
+                </div>
+
+                <div class="att-field">
+                    <label for="att-event-slug">Evento</label>
+                    <select id="att-event-slug" name="eventSlug" required>
+                        {events.map((event) => (
+                            <option value={event.slug}>{event.title}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <button type="submit" id="att-load-btn" class="att-btn att-btn--primary">Cargar asistencia</button>
+                <p id="att-feedback" class="att-feedback"></p>
+            </form>
+        </section>
+
+        <!-- Results (hidden until auth) -->
+        <section id="att-dashboard" class="att-dashboard" hidden>
+            <!-- Event header -->
+            <div id="att-event-header" class="att-event-header"></div>
+
+            <!-- Stats bar -->
+            <div id="att-stats" class="att-stats"></div>
+
+            <!-- Filter / search -->
+            <div class="att-toolbar">
+                <input id="att-search" type="search" class="att-search" placeholder="Buscar por nombre, correo o lugar..." />
+                <div class="att-filters">
+                    <button class="att-filter-btn active" data-filter="all">Todos</button>
+                    <button class="att-filter-btn" data-filter="grupo-1">Grupo 1</button>
+                    <button class="att-filter-btn" data-filter="grupo-2">Grupo 2</button>
+                </div>
+            </div>
+
+            <!-- Participant grid -->
+            <div id="att-list" class="att-list"></div>
+
+            <!-- Actions -->
+            <div class="att-actions">
+                <button id="att-back-btn" class="att-btn att-btn--outline">Cambiar evento</button>
+            </div>
+        </section>
+    </main>
+
+    <script is:inline src="/scripts/admin-asistencia.js?v=2"></script>
+</Layout>

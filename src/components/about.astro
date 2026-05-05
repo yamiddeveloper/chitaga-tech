@@ -1,0 +1,40 @@
+---
+import ScrollAnimation from './ScrollAnimation.jsx';
+---
+<style>
+    @import '../styles/about.css';
+</style>
+<section id="nosotros" class="about-section">
+    <div class="about-inner">
+        <ScrollAnimation className="about-header" delay={0.2} client:load as="div">
+            <span class="about-badge">Nosotros</span>
+            <h2 class="about-title">Porque irse no debería ser la única opción</h2>
+            <p class="about-description">
+                En Chitagá no hay un lugar para aprender las habilidades que exige este siglo. Muchos jóvenes se van por falta de oportunidades. <strong>Chitagá Tech</strong> nace para cambiarlo: un espacio donde formarse en tecnología sin dejar su tierra.
+            </p>
+        </ScrollAnimation>
+
+        <div class="about-cards">
+            <ScrollAnimation delay={0.4} variants={{
+                hidden: { opacity: 0, y: 24 },
+                visible: { opacity: 1, y: 0 }
+            }} client:load as="div">
+                <div class="about-card">
+                    <div class="about-card-number">01</div>
+                    <h3>Lo que queremos lograr</h3>
+                    <p>Sembrar talento tecnológico en Chitagá. Que nuestros jóvenes tengan acceso real a formación de calidad, y que si algún día se van, sea por elección y no porque les tocó.</p>
+                </div>
+            </ScrollAnimation>
+            <ScrollAnimation delay={0.6} variants={{
+                hidden: { opacity: 0, y: 24 },
+                visible: { opacity: 1, y: 0 }
+            }} client:load as="div">
+                <div class="about-card">
+                    <div class="about-card-number">02</div>
+                    <h3>A dónde apuntamos</h3>
+                    <p>Que desde Chitagá se pueda crear, innovar y transformar. Que el talento de aquí impacte no solo al municipio, sino a Colombia y al mundo.</p>
+                </div>
+            </ScrollAnimation>
+        </div>
+    </div>
+</section>

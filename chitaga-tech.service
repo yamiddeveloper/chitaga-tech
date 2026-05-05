@@ -1,0 +1,30 @@
+[Unit]
+Description=Chitagá Tech Backend Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=yamiddev
+Group=yamiddev
+WorkingDirectory=/home/yamiddev/chitaga-tech
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/npm run server
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=chitaga-tech
+
+# Seguridad
+NoNewPrivileges=true
+ProtectSystem=strict
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

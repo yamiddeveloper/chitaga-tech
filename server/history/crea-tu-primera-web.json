@@ -1,0 +1,161 @@
+{
+  "event": {
+    "slug": "crea-tu-primera-web",
+    "title": "Construye tu primera página web y muestra Chitagá al mundo.",
+    "date": "2026-03-20",
+    "capacity": 30,
+    "total_registered": 15
+  },
+  "registrations": [
+    {
+      "id": 2,
+      "name": "Yulieth Mayerly Vera Antolínez",
+      "email": "yuliethvera20022301@gmail.com",
+      "phone": "3138918515",
+      "group": "grupo-1",
+      "place": "Páramo de Santurbán",
+      "has_photo": "no",
+      "created_at": "2026-03-16 20:32:55"
+    },
+    {
+      "id": 4,
+      "name": "Joseph harley Contreras Fernandez",
+      "email": "jocondez27@gmail.com",
+      "phone": "3134549285",
+      "group": "grupo-2",
+      "place": "Puente del Camino Real (o Puente de Bolívar)",
+      "has_photo": "si",
+      "created_at": "2026-03-16 21:06:49"
+    },
+    {
+      "id": 10,
+      "name": "Leider Fabián García Ortiz",
+      "email": "leidergarcia1203@gmail.com",
+      "phone": "3222027298",
+      "group": "grupo-1",
+      "place": "Páramo de santurban",
+      "has_photo": "no",
+      "created_at": "2026-03-17 02:57:18"
+    },
+    {
+      "id": 11,
+      "name": "Yamith Stiven Villamizar Herrera",
+      "email": "yamithxdgamig@gmail.com",
+      "phone": "3115681611",
+      "group": "grupo-1",
+      "place": "La laguna del salado",
+      "has_photo": "no",
+      "created_at": "2026-03-17 03:05:43"
+    },
+    {
+      "id": 12,
+      "name": "David santiago Cáceres Suárez",
+      "email": "davisuarez705@gmail.com",
+      "phone": "3212349869",
+      "group": "grupo-2",
+      "place": "La laguna del salado",
+      "has_photo": "si",
+      "created_at": "2026-03-17 03:11:40"
+    },
+    {
+      "id": 13,
+      "name": "Yesmin Fernanda Monroy Maldonado",
+      "email": "yerliyesminnuryyohan@gmail.com",
+      "phone": "3214471209",
+      "group": "grupo-2",
+      "place": "El salado",
+      "has_photo": "no",
+      "created_at": "2026-03-17 03:32:10"
+    },
+    {
+      "id": 14,
+      "name": "Deisi duarte",
+      "email": "deisicelis45@gmail.com",
+      "phone": "3148036373",
+      "group": "grupo-2",
+      "place": "Paramo de santurban",
+      "has_photo": "no",
+      "created_at": "2026-03-17 10:42:30"
+    },
+    {
+      "id": 15,
+      "name": "Lendi Patricia Ortiz Florez",
+      "email": "lendy199628@gmail.com",
+      "phone": "3234638109",
+      "group": "grupo-2",
+      "place": "Laguna del Salado",
+      "has_photo": "si",
+      "created_at": "2026-03-17 11:48:25"
+    },
+    {
+      "id": 16,
+      "name": "Anderson Camilo Villamizar",
+      "email": "samuelitto2004@gmail.com",
+      "phone": "3142380901",
+      "group": "grupo-1",
+      "place": "Cascada de la vieja",
+      "has_photo": "no",
+      "created_at": "2026-03-18 11:57:24"
+    },
+    {
+      "id": 17,
+      "name": "Jorge Humberto",
+      "email": "bastoj004@gmail.com",
+      "phone": "3202662002",
+      "group": "grupo-1",
+      "place": "Laguna del salado",
+      "has_photo": "no",
+      "created_at": "2026-03-18 12:38:32"
+    },
+    {
+      "id": 18,
+      "name": "Camilo Andrés Velasquez Reatiga",
+      "email": "camiloandresvelasquez06@gmail.com",
+      "phone": "3235400613",
+      "group": "grupo-1",
+      "place": "Laguna Comagueta",
+      "has_photo": "si",
+      "created_at": "2026-03-18 23:26:12"
+    },
+    {
+      "id": 19,
+      "name": "Elizabeth Santander",
+      "email": "eesantander01@gmail.com",
+      "phone": "3118410459",
+      "group": "grupo-2",
+      "place": "Balneario Las Vegas",
+      "has_photo": "si",
+      "created_at": "2026-03-18 23:37:23"
+    },
+    {
+      "id": 20,
+      "name": "Nelson Romero Hoyos",
+      "email": "isbeliaf843@gmail.com",
+      "phone": "3223422447",
+      "group": "grupo-1",
+      "place": "Hacienda Carrillo",
+      "has_photo": "no",
+      "created_at": "2026-03-19 03:19:20"
+    },
+    {
+      "id": 21,
+      "name": "Mariana Rojas Rodríguez",
+      "email": "ingmariana43@gmail.com",
+      "phone": "3106965122",
+      "group": "grupo-2",
+      "place": "La laguna del Tambor",
+      "has_photo": "no",
+      "created_at": "2026-03-19 04:25:00"
+    },
+    {
+      "id": 22,
+      "name": "Anderson Daniel Garcia Lizcano",
+      "email": "andersonlizcano@gmail.com",
+      "phone": "3204320748",
+      "group": "grupo-2",
+      "place": "Puente real",
+      "has_photo": "si",
+      "created_at": "2026-03-21 01:42:13"
+    }
+  ]
+}

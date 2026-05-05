@@ -1,0 +1,236 @@
+
+<style>
+  .section { margin: 0 0 2.5rem; }
+  .section-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 1rem; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 1.5rem; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+  .metric-label { font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .metric-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .metric-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .funnel { margin: 0 0 1.5rem; }
+  .funnel-step { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; }
+  .funnel-bar-wrap { flex: 1; height: 32px; background: var(--color-background-secondary); border-radius: 6px; overflow: hidden; }
+  .funnel-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 12px; font-weight: 500; }
+  .funnel-label { width: 120px; font-size: 13px; color: var(--color-text-secondary); text-align: right; flex-shrink: 0; }
+  .funnel-count { width: 40px; font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .split-row { display: flex; gap: 6px; flex: 1; }
+  .split-bar-wrap { height: 32px; background: var(--color-background-secondary); border-radius: 6px; overflow: hidden; }
+  .split-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 8px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .member-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .group-header { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 8px; padding: 0 0 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .member-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; flex-wrap: wrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: #639922; }
+  .dot-amber { background: #EF9F27; }
+  .dot-red { background: #E24B4A; }
+  .dot-gray { background: #888780; }
+  .member-name { color: var(--color-text-primary); }
+  .member-tag { font-size: 11px; padding: 1px 6px; border-radius: 4px; }
+  .tag-finished { background: var(--color-background-success); color: var(--color-text-success); }
+  .tag-partial { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .tag-noshow { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .tag-activated { background: var(--color-background-info); color: var(--color-text-info); }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+  .compare-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 10px; }
+  .compare-stat { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+  .compare-label { color: var(--color-text-secondary); }
+  .compare-value { font-weight: 500; color: var(--color-text-primary); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 0 0 1rem; font-size: 12px; color: var(--color-text-secondary); }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .timeline { position: relative; padding-left: 20px; border-left: 1.5px solid var(--color-border-tertiary); margin: 0 0 1rem 8px; }
+  .tl-item { position: relative; padding: 0 0 14px 16px; }
+  .tl-item::before { content: ''; position: absolute; left: -24.5px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-border-secondary); }
+  .tl-time { font-size: 11px; color: var(--color-text-tertiary); }
+  .tl-text { font-size: 13px; color: var(--color-text-primary); }
+  .insight-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; margin: 0 0 10px; }
+  .insight-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+  .insight-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+</style>
+
+<div class="section">
+  <div class="section-title">Embudo de conversión</div>
+  <div class="funnel">
+    <div class="funnel-step">
+      <span class="funnel-label">Comunidad</span>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:#85B7EB;color:#042C53;">21 miembros</div></div>
+      <span class="funnel-count">21</span>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-label">Inscritos</span>
+      <div class="split-row">
+        <div class="split-bar-wrap" style="flex:8;">
+          <div class="split-bar" style="width:100%;background:#5DCAA5;color:#04342C;">8 internos</div>
+        </div>
+        <div class="split-bar-wrap" style="flex:7;">
+          <div class="split-bar" style="width:100%;background:#97C459;color:#173404;">7 externos</div>
+        </div>
+      </div>
+      <span class="funnel-count">15</span>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-label">Asistieron</span>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:80%;background:#FAC775;color:#412402;">80% de inscritos</div></div>
+      <span class="funnel-count">12</span>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-label">Finalizaron</span>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:33%;background:#ED93B1;color:#4B1528;">42% de asistentes</div></div>
+      <span class="funnel-count">5</span>
+    </div>
+    <div class="funnel-step">
+      <span class="funnel-label">Activados 24h</span>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:13%;background:#AFA9EC;color:#26215C;">40% de finalizados</div></div>
+      <span class="funnel-count">2</span>
+    </div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="metric-label">Inscripción interna</div>
+      <div class="metric-value">40%</div>
+      <div class="metric-sub">8 de 20 miembros</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Alcance externo</div>
+      <div class="metric-value">7</div>
+      <div class="metric-sub">inscritos fuera del grupo</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Asistencia</div>
+      <div class="metric-value">80%</div>
+      <div class="metric-sub">12 de 15 inscritos</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Activación</div>
+      <div class="metric-value">40%</div>
+      <div class="metric-sub">2 de 5 finalizados</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Mapa de cada participante</div>
+  <div class="legend">
+    <span class="legend-item"><span class="dot dot-green"></span> Finalizó + activado</span>
+    <span class="legend-item"><span class="dot dot-amber"></span> Finalizó</span>
+    <span class="legend-item"><span class="dot dot-red"></span> No finalizó</span>
+    <span class="legend-item"><span class="dot dot-gray"></span> No asistió</span>
+  </div>
+  <div class="member-grid">
+    <div class="group-col">
+      <div class="group-header">Grupo 1 — 2:00 PM (4 inscritos, 4 asistieron)</div>
+      <div class="member-row"><span class="dot dot-amber"></span><span class="member-name">Yulieth M. Vera Antolínez</span><span class="member-tag tag-finished">finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Camilo A. Velasquez Reatiga</span><span class="member-tag tag-partial">no finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Jorge Humberto</span><span class="member-tag tag-partial">no finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Yamith S. Villamizar Herrera</span><span class="member-tag tag-partial">no finalizó</span></div>
+    </div>
+    <div class="group-col">
+      <div class="group-header">Grupo 2 — 9:00 PM (11 inscritos, 8 asistieron)</div>
+      <div class="member-row"><span class="dot dot-green"></span><span class="member-name">David S. Cáceres Suárez</span><span class="member-tag tag-finished">finalizó</span><span class="member-tag tag-activated">reclutó + TikTok</span></div>
+      <div class="member-row"><span class="dot dot-green"></span><span class="member-name">Leider F. García Ortiz</span><span class="member-tag tag-finished">finalizó</span><span class="member-tag tag-activated">experimenta solo</span></div>
+      <div class="member-row"><span class="dot dot-amber"></span><span class="member-name">Mariana Rojas Rodríguez</span><span class="member-tag tag-finished">finalizó</span></div>
+      <div class="member-row"><span class="dot dot-amber"></span><span class="member-name">Nelson Romero Hoyos</span><span class="member-tag tag-finished">finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Anderson D. García Lizcano</span><span class="member-tag tag-partial">no finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Deisi Duarte</span><span class="member-tag tag-partial">no finalizó</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Elizabeth Santander</span><span class="member-tag tag-partial">no finalizará</span></div>
+      <div class="member-row"><span class="dot dot-red"></span><span class="member-name">Lendi P. Ortiz Florez</span><span class="member-tag tag-partial">no finalizó</span></div>
+      <div class="member-row"><span class="dot dot-gray"></span><span class="member-name">Anderson C. Villamizar</span><span class="member-tag tag-noshow">no asistió</span></div>
+      <div class="member-row"><span class="dot dot-gray"></span><span class="member-name">Joseph H. Contreras</span><span class="member-tag tag-noshow">no asistió</span></div>
+      <div class="member-row"><span class="dot dot-gray"></span><span class="member-name">Yesmin F. Monroy</span><span class="member-tag tag-noshow">no asistió</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Comparación por grupo</div>
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-title">Grupo 1 (tarde)</div>
+      <div class="compare-stat"><span class="compare-label">Inscritos</span><span class="compare-value">4</span></div>
+      <div class="compare-stat"><span class="compare-label">Asistieron</span><span class="compare-value">4 (100%)</span></div>
+      <div class="compare-stat"><span class="compare-label">Finalizaron</span><span class="compare-value">1 (25%)</span></div>
+      <div class="compare-stat"><span class="compare-label">Planeado</span><span class="compare-value">2:00 – 3:00 PM</span></div>
+      <div class="compare-stat"><span class="compare-label">Duración real</span><span class="compare-value" style="color:#E24B4A;">~4 horas</span></div>
+      <div class="compare-stat"><span class="compare-label">Meet links</span><span class="compare-value">4</span></div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-title">Grupo 2 (noche)</div>
+      <div class="compare-stat"><span class="compare-label">Inscritos</span><span class="compare-value">11</span></div>
+      <div class="compare-stat"><span class="compare-label">Asistieron</span><span class="compare-value">8 (73%)</span></div>
+      <div class="compare-stat"><span class="compare-label">Finalizaron</span><span class="compare-value">4 (50%)</span></div>
+      <div class="compare-stat"><span class="compare-label">Planeado</span><span class="compare-value">9:00 – 10:00 PM</span></div>
+      <div class="compare-stat"><span class="compare-label">Duración real</span><span class="compare-value" style="color:#EF9F27;">~3 horas</span></div>
+      <div class="compare-stat"><span class="compare-label">Meet links</span><span class="compare-value">3</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Activación post-taller — David y Leider</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Viernes 12:07 AM</div>
+      <div class="tl-text">David y Leider comparten resultados en el grupo. David corrige a Leider → peer learning espontáneo.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes 12:18 AM</div>
+      <div class="tl-text">David: "Montalo en el estado para que todos sepan que todo es posible sea en un pueblo pequeño".</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes 12:28 AM</div>
+      <div class="tl-text">Leider experimenta con degradados CSS después de medianoche: "ahora sí puedo dormir sin esa duda".</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes 10:44 AM</div>
+      <div class="tl-text">Leider: "de curioso, muy". Construyó una página nueva solo.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes ~4:00 PM</div>
+      <div class="tl-text">David + Yamid graban primer TikTok en el parque. Reclutamiento orgánico.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes 5:22 PM</div>
+      <div class="tl-text">David anuncia el video en General y recluta a Ángel.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Viernes 9:16 PM</div>
+      <div class="tl-text">TikTok e Instagram publicados. Ángel: "quedó chimba".</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Hallazgos clave</div>
+  <div class="insight-box">
+    <div class="insight-title">47% de inscritos eran externos a la comunidad</div>
+    <div class="insight-body">7 de 15 inscritos no estaban en el grupo. El taller funcionó como herramienta de reclutamiento.</div>
+  </div>
+  <div class="insight-box">
+    <div class="insight-title">80% de asistencia — la convocatoria no es el problema</div>
+    <div class="insight-body">12 de 15 inscritos se presentaron. 3 no-shows, todos del G2 (Anderson Camilo, Joseph, Yesmin).</div>
+  </div>
+  <div class="insight-box">
+    <div class="insight-title">El cuello de botella es la completación: 42%</div>
+    <div class="insight-body">Solo 5 de 12 asistentes terminaron su página. Duración real (3-4h vs. 1h planeada) y los cortes de Google Meet son los factores principales.</div>
+  </div>
+  <div class="insight-box">
+    <div class="insight-title">El G2 concentra 73% de los inscritos y retiene mejor</div>
+    <div class="insight-body">11 de 15 inscritos eligieron la noche. Completación G2: 50% vs G1: 25%. El horario nocturno es el preferido y más efectivo.</div>
+  </div>
+  <div class="insight-box">
+    <div class="insight-title">David y Leider: los 2 activados del taller</div>
+    <div class="insight-body">David reclutó, grabó TikTok y subió al Team. Leider construyó por su cuenta y sigue experimentando. Tasa de activación: 40% de los que finalizaron.</div>
+  </div>
+  <div class="insight-box">
+    <div class="insight-title">Google Meet gratis: 7 enlaces = 7 puntos de abandono</div>
+    <div class="insight-body">Alternativas: Jitsi (sin límite, gratis), Discord, o Google Meet con Workspace.</div>
+  </div>
+</div>
+
+<!-- Botón de toggle de tema -->
+<button id="toggle-theme" aria-label="Cambiar tema claro/oscuro">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
+</button>

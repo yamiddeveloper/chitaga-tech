@@ -1,0 +1,228 @@
+---
+import '../styles/global.css';
+import { navLinks } from '../data/navigation.js';
+import ButtonToggle from '../components/buttonToggle.jsx';
+---
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
+
+        <title>Chitagá Tech — Que irse sea opción, no obligación | Comunidad Tech en Chitagá, Norte de Santander</title>
+        <meta name="description" content="Comunidad de profesionales chitagüenses que construyen oportunidades reales en tecnología. Cursos de programación, talleres digitales, mentoría y proyectos para que quedarte en Chitagá sea una elección, no una limitación." />
+        <link rel="canonical" href="https://chitagatech.vercel.app/" />
+        <meta name="author" content="Comunidad Chitagá Tech" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#184014" />
+        <meta name="keywords" content="Chitagá Tech, tecnología Chitagá, programación Chitagá, cursos programación Norte de Santander, comunidad tech Colombia, aprender programación gratis, talleres digitales Chitagá, desarrollo web Chitagá, innovación rural Colombia, empleo tecnología Chitagá, formación digital Norte de Santander" />
+        <meta name="geo.region" content="CO-NSA" />
+        <meta name="geo.placename" content="Chitagá, Norte de Santander" />
+        <meta name="geo.position" content="7.3833,-72.5167" />
+        <meta name="ICBM" content="7.3833,-72.5167" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://chitagatech.vercel.app/" />
+        <meta property="og:title" content="Chitagá Tech — Que irse sea opción, no obligación | Comunidad Tech en Chitagá, Norte de Santander" />
+        <meta property="og:description" content="Comunidad de profesionales chitagüenses que construyen oportunidades reales en tecnología. Cursos de programación, talleres digitales, mentoría y proyectos para que quedarte en Chitagá sea una elección, no una limitación." />
+        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Chitagá Tech — Que irse sea opción, no obligación | Comunidad Tech en Chitagá, Norte de Santander" />
+        <meta property="og:locale" content="es_CO" />
+        <meta property="og:site_name" content="Chitagá Tech" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://chitagatech.vercel.app/" />
+        <meta name="twitter:title" content="Chitagá Tech — Que irse sea opción, no obligación | Comunidad Tech en Chitagá, Norte de Santander" />
+        <meta name="twitter:description" content="Comunidad de profesionales chitagüenses que construyen oportunidades reales en tecnología. Cursos de programación, talleres digitales, mentoría y proyectos para que quedarte en Chitagá sea una elección, no una limitación." />
+        <meta name="twitter:image" content="/og-image.png" />
+
+        <!-- Favicon & Apple Touch -->
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Restore theme before render to prevent flash -->
+        <script is:inline>
+            // Apply theme immediately to prevent flash of unstyled content
+            (function() {
+                var t = localStorage.getItem('theme');
+                var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (!t) t = systemPrefersDark ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <header id="site-header">
+                <div class="header-inner">
+                    <a href="/" class="header-brand">
+                        <img src="/favicon.ico" alt="Chitaga Tech" class="header-icon" />
+                        <span class="header-name">Chitaga Tech</span>
+                    </a>
+
+                    <nav class="nav-desktop">
+                        <ul>
+{navLinks.map(({ href, label, subItems }) => (
+    subItems?.length ? (
+        <li>
+            <div class="nav-dropdown">
+                <a href={href} class="nav-link">{label}</a>
+                <button class="nav-dropdown-toggle" aria-label={`Desplegar ${label}`} aria-expanded="false">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <ul class="submenu">
+                    {subItems.map(({ href: subHref, label: subLabel }) => (
+                        <li><a href={subHref} class="nav-link sub-link">{subLabel}</a></li>
+                    ))}
+                </ul>
+            </div>
+        </li>
+    ) : (
+        <li>
+            <a href={href} class="nav-link">{label}</a>
+        </li>
+    )
+))}
+                        </ul>
+                    </nav>
+
+                    <button id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </header>
+
+            <div id="mobile-backdrop" class="mobile-backdrop"></div>
+            <div id="mobile-overlay" class="mobile-overlay">
+                <div class="mobile-drawer">
+                    <div class="mobile-drawer-header">
+                        <a href="/" class="header-brand">
+                            <img src="/favicon.ico" alt="Chitaga Tech" class="header-icon" />
+                            <span class="header-name">Chitaga Tech</span>
+                        </a>
+                    </div>
+                    <nav class="mobile-nav">
+                        <ul>
+{navLinks.map(({ href, label, subItems, icon }) => (
+    <li>
+        <div class="mobile-link-row">
+            <a href={href}>
+                <span class="nav-icon">
+                    {icon === 'home' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    )}
+                    {icon === 'users' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    )}
+                    {icon === 'briefcase' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    )}
+                    {icon === 'folder' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    )}
+                    {icon === 'shield' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    )}
+                    {icon === 'mail' && (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    )}
+                </span>
+                {label}
+            </a>
+            {subItems?.length && (
+                <button class="mobile-submenu-toggle" aria-label={`Desplegar ${label}`} aria-expanded="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+            )}
+        </div>
+        {subItems?.length && (
+            <ul class="mobile-submenu">
+                {subItems.map(({ href: subHref, label: subLabel }) => (
+                    <li>
+                        <a href={subHref}>
+                            <span class="sub-dot"></span>
+                            {subLabel}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </li>
+))}
+                        </ul>
+                    </nav>
+                    <div class="mobile-drawer-footer">
+                        <div class="footer-divider"></div>
+                        <p>Chitagá Tech &mdash; Que irse sea opción, no obligación.</p>
+                    </div>
+                </div>
+            </div>
+
+            <script src="/scripts/header.js" defer></script>
+
+            <main>
+                <slot />
+            </main>
+
+            <ButtonToggle client:load />
+
+            <footer id="site-footer">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <img src="/favicon.ico" alt="Chitaga Tech" class="footer-icon" />
+                            <span class="footer-name">Chitaga Tech</span>
+                        </div>
+                        <p class="footer-tagline">Para que irse sea opción, no obligación.</p>
+                    </div>
+
+                    <div class="footer-links">
+                        <div class="footer-col">
+                            <h4>Navegación</h4>
+                            <ul>
+                                {navLinks.map(({ href, label }) => (
+                                    <li><a href={href}>{label}</a></li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Redes</h4>
+                            <ul>
+                                <li><a href="#">Facebook</a></li>
+                                <li><a href="#">Instagram</a></li>
+                                <li><a href="#">GitHub</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Chitaga Tech. Todos los derechos reservados.</p>
+                </div>
+<style>
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+</style>

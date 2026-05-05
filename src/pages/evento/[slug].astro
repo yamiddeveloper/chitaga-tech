@@ -1,0 +1,867 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { events, getEventBySlug } from "../../data/events.js";
+import type { Event } from "../../types/events";
+import '../../styles/evento.css';
+
+export function getStaticPaths() {
+    return events.map(event => ({
+        params: { slug: event.slug },
+    }));
+}
+
+const { slug } = Astro.params;
+const event = getEventBySlug(slug) as Event | undefined;
+
+if (!event) {
+    return Astro.redirect('/404');
+}
+
+const dateFormatted = new Date(event.date + 'T12:00:00').toLocaleDateString('es-CO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
+
+const isClosed = event.status !== 'open';
+const fieldsJson = JSON.stringify(event.fields);
+const isIntroduccion = slug === 'introduccion-programacion';
+---
+
+<Layout
+    title={`${event.title} — Chitagá Tech`}
+    description={event.description}
+    image={event.image || "/og-image.png"}
+    ogType="article"
+>
+    <main class={`evento-main ${isIntroduccion ? 'evento-moderno' : ''}`}>
+        {isClosed ? (
+            <div class="evento-closed">
+                <div class="evento-closed-icon">🔒</div>
+                <h2>Inscripciones cerradas</h2>
+                <p>Las inscripciones para este evento ya no están disponibles. Mantente atento a los próximos eventos de Chitagá Tech.</p>
+                <a href="/" class="evento-closed-link">Ver otros eventos</a>
+            </div>
+        ) : isIntroduccion ? (
+            <div class="evento-moderno">
+                <div class="evento-moderno-container">
+                    <div class="evento-moderno-header">
+                        <div class="evento-moderno-icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h1 class="evento-moderno-title">{event.title}</h1>
+                        <p class="evento-moderno-description" id="mariana-story">
+                            <span class="story-highlight" id="mariana-name">Mariana Rojas</span> salió de Chitagá a estudiar ingeniería de sistemas. En la universidad vio que sus compañeros ya sabían programación básica. Ella se preguntó: <span class="story-question">"¿Por qué a mí no me enseñaron eso?"</span>
+                        </p>
+                        <p class="evento-moderno-description story-call">
+                            <strong>Este fin de semana <span class="instructor-link" id="leider-name">Leider Solano</span> nos enseñará a programar desde cero. Vamos a hacer historia en Chitagá.</strong>
+                        </p>
+                    </div>
+
+                    <div class="evento-moderno-form">
+                        <p class="evento-moderno-form-text">Deja tu correo y listo. Te mandamos toda la info.</p>
+                        
+                        <form id="evento-form" class="evento-moderno-form-element" data-slug={slug} data-fields={fieldsJson}>
+                            {event.fields.map((field: any) => (
+                                <input
+                                    type={field.type}
+                                    id={`ef-${field.name}`}
+                                    name={field.name}
+                                    placeholder={field.placeholder || ''}
+                                    required={field.required}
+                                    class="evento-moderno-input"
+                                />
+                            ))}
+
+                             <button type="submit" id="ef-submit-btn" class="evento-moderno-submit">
+                                <span>¡Quiero entrar!</span>
+                            </button>
+                        </form>
+
+                        <div id="ef-feedback" class="evento-moderno-feedback"></div>
+                        
+                        <p class="evento-moderno-note">Te contactaremos solo con la información del taller. Sin spam.</p>
+                        <p class="evento-moderno-date">Evento publicado el 8 de abril de 2026</p>
+                    </div>
+                </div>
+            </div>
+        ) : (
+            <section class="evento-form-section">
+                <h2 class="evento-form-title">Formulario de inscripción</h2>
+                <p class="evento-form-subtitle">Completa tus datos para reservar tu cupo.</p>
+
+                <form id="evento-form" class="evento-form" data-slug={slug} data-fields={fieldsJson}>
+                    {event.fields.map((field: any) => (
+                        <div class="ef-group">
+                            <label for={`ef-${field.name}`}>
+                                {field.label}
+                                {!field.required && <span class="ef-optional">(opcional)</span>}
+                            </label>
+
+                            {field.type === 'textarea' ? (
+                                <textarea
+                                    id={`ef-${field.name}`}
+                                    name={field.name}
+                                    rows="4"
+                                    placeholder={field.placeholder || ''}
+                                    required={field.required}
+                                />
+                            ) : field.type === 'select' ? (
+                                <select
+                                    id={`ef-${field.name}`}
+                                    name={field.name}
+                                    required={field.required}
+                                >
+                                    {field.options?.map((opt: { value: string; label: string }) => (
+                                        <option value={opt.value}>{opt.label}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type={field.type}
+                                    id={`ef-${field.name}`}
+                                    name={field.name}
+                                    placeholder={field.placeholder || ''}
+                                    required={field.required}
+                                    min={field.min}
+                                    max={field.max}
+                                />
+                            )}
+                        </div>
+                    ))}
+
+                    <button type="submit" class="ef-submit">
+                        Enviar inscripción
+                    </button>
+                </form>
+            </section>
+        )}
+
+        <!-- Modal de éxito -->
+        <div id="evento-success-popup" class="evento-popup">
+            <div class="evento-popup-content">
+                <button id="evento-popup-close" class="evento-popup-close" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="evento-popup-icon">🎉</div>
+                <h3 class="evento-popup-title">¡Inscripción exitosa!</h3>
+                <p class="evento-popup-text">
+                    Tu inscripción ha sido registrada correctamente. Te hemos enviado un correo de confirmación con todos los detalles del evento.
+                </p>
+                <div class="evento-popup-actions">
+                    <a href="/" class="evento-popup-button">Volver al inicio</a>
+                    <button id="evento-popup-close-btn" class="evento-popup-button secondary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de error -->
+        <div id="evento-error-popup" class="evento-popup">
+            <div class="evento-popup-content">
+                <button id="evento-error-popup-close" class="evento-popup-close" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="evento-popup-icon error">⚠️</div>
+                <h3 class="evento-popup-title error">Error en la inscripción</h3>
+                <p id="evento-error-message" class="evento-popup-text">
+                    Hubo un problema al procesar tu inscripción. Por favor, intenta nuevamente.
+                </p>
+                <div class="evento-popup-actions">
+                    <button id="evento-error-retry" class="evento-popup-button">Reintentar</button>
+                    <button id="evento-error-popup-close-btn" class="evento-popup-button secondary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/scripts/evento-form.js?v=20260409" defer></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const marianaName = document.getElementById('mariana-name');
+            const leiderName = document.getElementById('leider-name');
+            
+            if (marianaName) {
+                marianaName.addEventListener('click', function() {
+                    // Cambiar color al hacer clic
+                    this.classList.toggle('active');
+                    
+                    // Redirigir a la sección de miembros fundadores con parámetro
+                    window.location.href = '/miembros/?from=mariana-story#miembros-fundadores';
+                    
+                    // Restaurar color después de 1 segundo
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 1000);
+                });
+                
+                // Efecto hover con tooltip
+                marianaName.title = 'Ver perfil de Mariana Rojas';
+            }
+            
+            if (leiderName) {
+                leiderName.addEventListener('click', function() {
+                    // Cambiar color al hacer clic
+                    this.classList.toggle('active');
+                    
+                    // Redirigir a la sección de Leider Solano con parámetro
+                    window.location.href = '/miembros/?from=leider-story#leider-solano';
+                    
+                    // Restaurar color después de 1 segundo
+                    setTimeout(() => {
+                        this.classList.remove('active');
+                    }, 1000);
+                });
+                
+                // Efecto hover con tooltip
+                leiderName.title = 'Ver perfil de Leider Solano';
+            }
+            
+            // Animación de entrada para la historia
+            const storyElement = document.getElementById('mariana-story');
+            if (storyElement) {
+                setTimeout(() => {
+                    storyElement.style.opacity = '1';
+                }, 300);
+            }
+        });
+    </script>
+</Layout>
+
+<style>
+    :root {
+        --color-orange-rgb: 185, 58, 5;
+        --color-green-dark-rgb: 24, 64, 20;
+        --color-white-rgb: 234, 232, 235;
+    }
+    
+    :global(.dark) {
+        --color-orange-rgb: 210, 96, 41;
+        --color-green-dark-rgb: 24, 64, 20;
+        --color-white-rgb: 234, 232, 235;
+    }
+
+    /* Diseño minimalista moderno con colores globales */
+    .evento-moderno {
+        min-height: 100vh;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #ffffff;
+    }
+
+    :global(.dark) .evento-moderno {
+        background: #191919;
+    }
+
+    .evento-moderno-container {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    /* Encabezado minimalista con colores globales */
+    .evento-moderno-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .evento-moderno-icon {
+        margin-bottom: 1.5rem;
+        opacity: 0.9;
+        display: flex;
+        justify-content: center;
+    }
+
+    .evento-moderno-icon svg {
+        width: 64px;
+        height: 64px;
+        color: var(--color-green-dark);
+    }
+
+    :global(.dark) .evento-moderno-icon {
+        opacity: 0.8;
+    }
+
+    :global(.dark) .evento-moderno-icon svg {
+        color: var(--color-white);
+    }
+
+    .evento-moderno-title {
+        font-family: var(--font-montserrat);
+        font-weight: 800;
+        font-size: 1.9rem;
+        line-height: 1.2;
+        color: var(--color-green-dark);
+        margin-bottom: 1rem;
+        letter-spacing: -0.5px;
+    }
+
+    :global(.dark) .evento-moderno-title {
+        color: var(--color-white);
+    }
+
+    .evento-moderno-description {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--color-green-dark);
+        opacity: 0.85;
+        padding: 0 0.5rem;
+        font-style: italic;
+        margin-bottom: 0.5rem;
+    }
+
+    :global(.dark) .evento-moderno-description {
+        color: var(--color-white);
+        opacity: 0.75;
+    }
+
+    .evento-moderno-date {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: var(--color-green-dark);
+        margin: 1rem 0 0 0;
+        opacity: 0.7;
+    }
+
+    :global(.dark) .evento-moderno-date {
+        color: var(--color-white);
+        opacity: 0.6;
+    }
+
+    .instructor-link {
+        color: var(--color-orange);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .instructor-link:hover {
+        color: var(--color-green-dark);
+        text-decoration: underline;
+    }
+
+    :global(.dark) .instructor-link {
+        color: var(--color-orange);
+    }
+
+    :global(.dark) .instructor-link:hover {
+        color: var(--color-white);
+    }
+
+    :global(.dark) .evento-moderno-instructor {
+        color: var(--color-white);
+        opacity: 0.6;
+    }
+
+    /* Formulario minimalista con colores globales */
+    .evento-moderno-form {
+        margin-top: 2.5rem;
+    }
+
+    .evento-moderno-form-text {
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        color: var(--color-green-dark);
+        opacity: 0.7;
+        margin-bottom: 1.75rem;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+    }
+
+    :global(.dark) .evento-moderno-form-text {
+        color: var(--color-white);
+        opacity: 0.6;
+    }
+
+    .evento-moderno-form-element {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .evento-moderno-input {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        color: var(--color-green-dark);
+        background: white;
+        border: 1px solid rgba(var(--color-green-dark-rgb, 24, 64, 20), 0.2);
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        outline: none;
+    }
+
+    :global(.dark) .evento-moderno-input {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(var(--color-white-rgb, 234, 232, 235), 0.2);
+        color: var(--color-white);
+    }
+
+    .evento-moderno-input:focus {
+        border-color: var(--color-orange);
+        box-shadow: 0 0 0 3px rgba(var(--color-orange-rgb, 185, 58, 5), 0.15);
+    }
+
+    :global(.dark) .evento-moderno-input:focus {
+        box-shadow: 0 0 0 3px rgba(var(--color-orange-rgb, 210, 96, 41), 0.25);
+    }
+
+    .evento-moderno-input::placeholder {
+        color: rgba(var(--color-green-dark-rgb, 24, 64, 20), 0.5);
+    }
+
+    :global(.dark) .evento-moderno-input::placeholder {
+        color: rgba(var(--color-white-rgb, 234, 232, 235), 0.4);
+    }
+
+    .evento-moderno-submit {
+        width: 100%;
+        padding: 1rem;
+        font-family: var(--font-pop);
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: white;
+        background: var(--color-orange);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .evento-moderno-submit:hover {
+        background: #e65c2e;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(var(--color-orange-rgb, 185, 58, 5), 0.2);
+    }
+
+    :global(.dark) .evento-moderno-submit:hover {
+        background: #e65c2e;
+        box-shadow: 0 10px 25px rgba(var(--color-orange-rgb, 210, 96, 41), 0.3);
+    }
+
+    .evento-moderno-submit:active {
+        transform: translateY(0);
+    }
+
+    .evento-moderno-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .evento-moderno-feedback {
+        margin-top: 1.25rem;
+        padding: 0.875rem;
+        border-radius: 12px;
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        text-align: center;
+        border: 1px solid transparent;
+    }
+
+    .evento-moderno-feedback.error {
+        background: rgba(239, 68, 68, 0.08);
+        color: #dc2626;
+        border-color: rgba(239, 68, 68, 0.15);
+    }
+
+    .evento-moderno-feedback.success {
+        background: rgba(34, 197, 94, 0.08);
+        color: #16a34a;
+        border-color: rgba(34, 197, 94, 0.15);
+    }
+
+    .evento-moderno-note {
+        margin-top: 1.25rem;
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        color: var(--color-green-dark);
+        opacity: 0.6;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+    }
+
+    :global(.dark) .evento-moderno-note {
+        color: var(--color-white);
+        opacity: 0.5;
+    }
+
+    /* Responsive para pantallas más grandes */
+    @media (min-width: 640px) {
+        .evento-moderno-container {
+            max-width: 420px;
+        }
+        
+        .evento-moderno-icon {
+            margin-bottom: 1.75rem;
+        }
+        
+        .evento-moderno-icon svg {
+            width: 72px;
+            height: 72px;
+        }
+        
+        .evento-moderno-title {
+            font-size: 2.2rem;
+        }
+        
+        .evento-moderno-description {
+            font-size: 1.1rem;
+        }
+        
+        .evento-moderno-form-text {
+            font-size: 1rem;
+        }
+    }
+
+    /* Optimización para pantallas muy pequeñas */
+    @media (max-height: 600px) {
+        .evento-moderno {
+            padding: 15px;
+        }
+        
+        .evento-moderno-container {
+            max-width: 360px;
+        }
+        
+        .evento-moderno-header {
+            margin-bottom: 2rem;
+        }
+        
+        .evento-moderno-icon {
+            margin-bottom: 1.25rem;
+        }
+        
+        .evento-moderno-icon svg {
+            width: 56px;
+            height: 56px;
+        }
+        
+        .evento-moderno-title {
+            font-size: 1.7rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .evento-moderno-description {
+            font-size: 0.9rem;
+        }
+        
+        .evento-moderno-form {
+            margin-top: 2rem;
+        }
+        
+        .evento-moderno-form-text {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .evento-moderno-form-element {
+            gap: 1rem;
+        }
+        
+        .evento-moderno-input {
+            padding: 0.875rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .evento-moderno-submit {
+            padding: 0.875rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Estilos para el modal de éxito */
+    .evento-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .evento-popup.is-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .evento-popup-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: evento-popup-appear 0.4s ease-out;
+    }
+
+    :global(.dark) .evento-popup-content {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes evento-popup-appear {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .evento-popup-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        color: #6b7280;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .evento-popup-close:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: #374151;
+    }
+
+    :global(.dark) .evento-popup-close {
+        color: #9ca3af;
+    }
+
+    :global(.dark) .evento-popup-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #d1d5db;
+    }
+
+    .evento-popup-icon {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .evento-popup-icon.error {
+        color: #dc2626;
+    }
+
+    /* Animaciones para la historia de Mariana */
+    .story-highlight {
+        color: #B93A05;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+
+    .story-highlight:hover {
+        color: #fff;
+        background-color: #B93A05;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(185, 58, 5, 0.3);
+    }
+
+    .story-highlight:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(185, 58, 5, 0.3);
+    }
+
+    .story-highlight.active {
+        color: #fff;
+        background-color: #184014;
+        box-shadow: 0 4px 12px rgba(24, 64, 20, 0.3);
+    }
+
+    :global(.dark) .story-highlight {
+        color: #f97316;
+    }
+
+    :global(.dark) .story-highlight:hover {
+        color: #fff;
+        background-color: #f97316;
+        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    :global(.dark) .story-highlight.active {
+        color: #fff;
+        background-color: #22c55e;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    .story-question {
+        color: #184014;
+        font-weight: 600;
+        font-style: italic;
+        animation: pulse 2s infinite;
+    }
+
+    :global(.dark) .story-question {
+        color: #86efac;
+    }
+
+    .story-call {
+        animation: fadeInUp 1s ease 0.5s both;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    #mariana-story {
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .evento-popup-title {
+        font-family: var(--font-montserrat);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--color-green-dark);
+        text-align: center;
+        margin: 0 0 1rem 0;
+        line-height: 1.3;
+    }
+
+    .evento-popup-title.error {
+        color: #dc2626;
+    }
+
+    :global(.dark) .evento-popup-title {
+        color: var(--color-white);
+    }
+
+    :global(.dark) .evento-popup-title.error {
+        color: #f87171;
+    }
+
+    .evento-popup-text {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #4b5563;
+        text-align: center;
+        margin: 0 0 1.5rem 0;
+    }
+
+    :global(.dark) .evento-popup-text {
+        color: #d1d5db;
+    }
+
+    .evento-popup-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .evento-popup-button {
+        display: block;
+        width: 100%;
+        padding: 0.875rem;
+        font-family: var(--font-pop);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: var(--color-orange);
+        color: white;
+    }
+
+    .evento-popup-button:hover {
+        background: #d45c1a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(210, 96, 41, 0.3);
+    }
+
+    .evento-popup-button.secondary {
+        background: transparent;
+        color: var(--color-green-dark);
+        border: 2px solid var(--color-green-dark);
+    }
+
+    :global(.dark) .evento-popup-button.secondary {
+        color: var(--color-white);
+        border-color: var(--color-white);
+    }
+
+    .evento-popup-button.secondary:hover {
+        background: rgba(24, 64, 20, 0.05);
+        transform: translateY(-2px);
+    }
+
+    :global(.dark) .evento-popup-button.secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (min-width: 480px) {
+        .evento-popup-actions {
+            flex-direction: row;
+        }
+        
+        .evento-popup-button {
+            flex: 1;
+        }
+    }
+</style>

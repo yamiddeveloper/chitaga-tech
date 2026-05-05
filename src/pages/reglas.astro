@@ -1,0 +1,80 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { rules } from "../data/rules.js";
+import '../styles/reglas.css';
+---
+
+<Layout
+    title="Reglas de la Comunidad — Chitagá Tech"
+    description="Nuestras reglas de comunidad: cómo nos tratamos, cómo aprendemos y cómo construimos juntos en Chitagá Tech."
+    image="/og-reglas.png"
+    ogType="article"
+>
+    <section class="rules-content">
+        <div class="rules-inner">
+            <article class="rules-article">
+                <header class="rules-article-header">
+                    <a href="/" class="rules-back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rules-back-icon"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                        Volver al inicio
+                    </a>
+                    <h1 class="rules-title">Las reglas que nos hacen comunidad</h1>
+                    <p class="rules-subtitle">
+                        No son restricciones. Son el cimiento de un espacio donde cada persona se siente segura para aprender, equivocarse y crecer.
+                    </p>
+                </header>
+
+            <div class="rules-intro-wrap">
+                <p class="rules-intro-kicker">Nuestra base</p>
+                <p class="rules-intro">Chitagá Tech existe porque creemos que nuestra gente merece un lugar donde pueda ser ella misma, preguntar sin miedo y construir sin juicio. Estas reglas protegen eso. Al ser parte de esta comunidad, te comprometes a vivirlas.</p>
+            </div>
+
+            <div class="rules-list">
+                {rules.map((rule) => (
+                    <article class="rule">
+                        <div class="rule-header">
+                            <span class="rule-num">{rule.num}</span>
+                            <div>
+                                <h2>{rule.title}</h2>
+                                <p class="rule-sub">{rule.subtitle}</p>
+                            </div>
+                        </div>
+                        <p class="rule-body">{rule.body}</p>
+                    </article>
+                ))}
+            </div>
+
+            <div class="rules-closing">
+                <p class="closing-label">Esto no es un documento legal.</p>
+                <h2>Es una promesa.</h2>
+                <p>Un acuerdo entre personas que quieren lo mismo: ver a Chitagá crecer. Si algo no está bien, habla. Tu voz es parte de la solución.</p>
+            </div>
+
+            <div class="sf-section">
+                <h3 class="sf-title">¿Tienes una sugerencia?</h3>
+                <p class="sf-description">Si crees que algo puede mejorar en nuestras reglas, cuéntanos. Tu opinión importa.</p>
+
+                <form id="suggestion-form" data-topic="reglas">
+                    <div class="sf-group">
+                        <label for="sf-name">Nombre <span class="sf-optional">(opcional)</span></label>
+                        <input type="text" id="sf-name" name="name" placeholder="Tu nombre" autocomplete="name" />
+                        <span id="sf-status-name" class="sf-status"></span>
+                    </div>
+
+                    <div class="sf-group">
+                        <label for="sf-message">Sugerencia <span class="sf-required">*</span></label>
+                        <textarea id="sf-message" name="message" rows="4" placeholder="Escribe tu sugerencia aquí..."></textarea>
+                        <span id="sf-status-message" class="sf-status"></span>
+                    </div>
+
+                    <button type="button" id="sf-submit-btn" class="sf-submit">Enviar sugerencia</button>
+                    <div id="sf-feedback" class="sf-feedback"></div>
+                </form>
+            </div>
+            </article>
+
+        </div>
+    </section>
+
+    <script is:inline src="/scripts/suggestion-form.js"></script>
+</Layout>

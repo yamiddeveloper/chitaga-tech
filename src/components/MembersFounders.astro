@@ -1,0 +1,348 @@
+---
+import ScrollAnimation from './ScrollAnimation.jsx';
+import { founders } from '../data/founders.js';
+---
+
+<section id="miembros-fundadores" class="founders-section">
+    <div class="founders-inner">
+        <ScrollAnimation className="founders-header" delay={0.2} client:idle as="div">
+            <span class="founders-badge">Equipo fundador</span>
+            <h2 class="founders-title">Nuestros miembros fundadores</h2>
+            <p class="founders-subtitle">El equipo que dio vida a Chitagá Tech, uniendo talento local para transformar nuestro municipio.</p>
+        </ScrollAnimation>
+
+        <div class="founders-grid-container">
+                <div class="founders-grid">
+                    {founders.map((founder, index) => (
+                        <ScrollAnimation delay={0.3 + index * 0.1} variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 }
+                        }} client:idle as="div">
+                            <div class="founder-card">
+                                <div class="founder-avatar-circle">
+                                    {founder.image ? (
+                                        <img 
+                                            src={founder.image} 
+                                            alt={founder.name} 
+                                            class="founder-avatar-image"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    ) : (
+                                        <div class="founder-avatar-initials">
+                                            {founder.name.split(' ').map(n => n[0]).join('')}
+                                        </div>
+                                    )}
+                                </div>
+                                <div class="founder-content">
+                                    <h3>{founder.name}</h3>
+                                    <p class="founder-role">{founder.role}</p>
+                                    <p class="founder-description">{founder.description}</p>
+
+                                    <div class="founder-links">
+                                        <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" class="founder-link" aria-label={`LinkedIn de ${founder.name}`}>
+                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </a>
+                                        <a href={founder.github} target="_blank" rel="noopener noreferrer" class="founder-link" aria-label={`GitHub de ${founder.name}`}>
+                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollAnimation>
+                    ))}
+                </div>
+            </div>
+    </div>
+</section>
+
+<style>
+    .founders-section {
+        padding: 5rem 2rem;
+        background: #ffffff;
+    }
+
+    :global(.dark) .founders-section {
+        background: #191919;
+    }
+
+    @media (min-width: 768px) {
+        .founders-section {
+            padding: 6rem 3rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .founders-section {
+            padding: 8rem 4rem;
+        }
+    }
+
+    .founders-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    :global(.founders-header) {
+        text-align: center;
+        margin-bottom: 5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+    }
+
+    .founders-badge {
+        display: inline-block;
+        width: fit-content;
+        padding: 0.3rem 0.85rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 9999px;
+        color: var(--color-green-dark);
+        border: 1px solid var(--color-green-dark);
+        font-family: var(--font-pop);
+        margin-bottom: 0;
+    }
+
+    :global(.dark) .founders-badge {
+        color: var(--color-orange);
+        border-color: var(--color-orange);
+    }
+
+    .founders-title {
+        font-family: var(--font-montserrat);
+        font-weight: 700;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        color: var(--color-green-dark);
+        margin: 0;
+    }
+
+    :global(.dark) .founders-title {
+        color: var(--color-white);
+    }
+
+    @media (min-width: 768px) {
+        .founders-title {
+            font-size: 2.25rem;
+        }
+    }
+
+    .founders-subtitle {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #6b7280;
+        max-width: 520px;
+        margin: 0;
+    }
+
+    :global(.dark) .founders-subtitle {
+        color: #9ca3af;
+    }
+
+    .founders-grid-container {
+        margin: 0 auto;
+    }
+
+    .founders-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem !important;
+    }
+
+    .founders-grid > * {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (min-width: 640px) {
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem !important;
+            align-items: stretch;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .founders-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem !important;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .founders-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem !important;
+        }
+    }
+
+    .founder-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem !important;
+        padding: 2rem;
+        height: 440px;
+        border-radius: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #ffffff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+    }
+
+    .founder-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    :global(.dark) .founder-card {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :global(.dark) .founder-card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .founder-avatar-circle {
+        width: 7rem;
+        height: 7rem;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: var(--color-orange);
+    }
+
+    .founder-avatar-initials {
+        font-family: var(--font-montserrat);
+        font-weight: 600;
+        font-size: 2rem;
+        background: var(--color-orange);
+        color: #ffffff;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    :global(.dark) .founder-avatar-initials {
+        background: var(--color-orange);
+        color: #ffffff;
+    }
+
+    .founder-avatar-image {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        image-rendering: auto;
+        image-rendering: -webkit-optimize-contrast;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        -webkit-font-smoothing: antialiased;
+        filter: contrast(1.08) brightness(1.03) saturate(1.05);
+        image-resolution: 300dpi;
+        -webkit-interpolation-mode: bicubic;
+        image-rendering: smooth;
+    }
+
+    .founder-content {
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .founder-content h3 {
+        font-family: var(--font-montserrat);
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--color-green-dark);
+        margin: 0 0 0.5rem 0;
+    }
+
+    :global(.dark) .founder-content h3 {
+        color: var(--color-white);
+    }
+
+    .founder-role {
+        font-family: var(--font-pop);
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--color-orange);
+        margin: 0 0 1rem 0;
+    }
+
+    .founder-description {
+        font-family: var(--font-sans);
+        font-size: 0.875rem;
+        line-height: 1.65;
+        color: #6b7280;
+        margin: 0 0 1rem 0;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    :global(.dark) .founder-description {
+        color: #9ca3af;
+    }
+
+
+
+    .founder-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: auto;
+    }
+
+    .founder-link {
+        width: 1.75rem;
+        height: 1.75rem;
+        color: #6b7280;
+        transition: color 0.3s ease;
+    }
+
+    .founder-link:hover {
+        color: var(--color-orange);
+    }
+
+    .founder-link svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .founders-carousel {
+            gap: 3rem;
+        }
+        
+        .founder-carousel-item {
+            width: 300px;
+        }
+    }
+</style>

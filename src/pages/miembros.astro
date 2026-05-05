@@ -1,0 +1,502 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { founders } from '../data/founders.js';
+
+const title = "Miembros Fundadores — Chitagá Tech";
+const description = "Conoce al equipo fundador de Chitagá Tech, los profesionales chitagüenses que construyen oportunidades en tecnología para nuestra comunidad.";
+---
+
+<Layout {title} {description}>
+    <section class="miembros-page">
+        <div class="miembros-header">
+            <span class="miembros-badge">Equipo fundador</span>
+            <h1 class="miembros-title">Nuestros miembros fundadores</h1>
+            <p class="miembros-subtitle">El equipo que dio vida a Chitagá Tech, uniendo talento local para transformar nuestro municipio.</p>
+        </div>
+
+        <div class="miembros-grid">
+            {founders.map((founder) => (
+                <div 
+                    class="miembro-card" 
+                    id={founder.name === 'Mariana Rojas' ? 'mariana-card' : founder.name === 'Leider Solano' ? 'leider-card' : ''}
+                    data-founder={founder.name}
+                >
+                    <div class="miembro-avatar">
+                        {founder.image ? (
+                            <img src={founder.image} alt={founder.name} />
+                        ) : (
+                            <span class="miembro-initials">
+                                {founder.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                        )}
+                    </div>
+                    <h3>{founder.name}</h3>
+                    <p class="miembro-role">{founder.role}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .miembros-page {
+        width: 100%;
+        padding: 2rem 1.5rem !important;
+        background: #ffffff;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    :global(.dark) .miembros-page {
+        background: #191919;
+    }
+
+    @media (min-width: 480px) {
+        .miembros-page {
+            padding: 2.5rem 2rem !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembros-page {
+            padding: 4rem 3rem !important;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .miembros-page {
+            padding: 5rem 4rem !important;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .miembros-page {
+            padding: 6rem 5rem !important;
+        }
+    }
+
+    .miembros-header {
+        text-align: left;
+        margin-bottom: 2.5rem;
+        max-width: 800px;
+    }
+
+    @media (min-width: 768px) {
+        .miembros-header {
+            margin-bottom: 3.5rem;
+        }
+    }
+
+    .miembros-badge {
+        display: inline-block;
+        width: fit-content;
+        padding: 0.3rem 0.85rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 9999px;
+        color: var(--color-green-dark);
+        border: 1px solid var(--color-green-dark);
+        font-family: var(--font-pop);
+        margin-bottom: 1rem;
+    }
+
+    :global(.dark) .miembros-badge {
+        color: var(--color-orange);
+        border-color: var(--color-orange);
+    }
+
+    .miembros-title {
+        font-family: var(--font-montserrat);
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 1.2;
+        color: var(--color-green-dark);
+        margin: 0 0 0.75rem 0;
+    }
+
+    :global(.dark) .miembros-title {
+        color: var(--color-white);
+    }
+
+    @media (min-width: 480px) {
+        .miembros-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembros-title {
+            font-size: 1.75rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .miembros-title {
+            font-size: 2rem;
+        }
+    }
+
+    .miembros-subtitle {
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    :global(.dark) .miembros-subtitle {
+        color: #9ca3af;
+    }
+
+    @media (min-width: 768px) {
+        .miembros-subtitle {
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .miembros-subtitle {
+            font-size: 1rem;
+        }
+    }
+
+    .miembros-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem !important;
+    }
+
+    @media (min-width: 480px) {
+        .miembros-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembros-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem !important;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .miembros-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem !important;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .miembros-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem !important;
+        }
+    }
+
+    .miembro-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: #ffffff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+        border: none;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    .miembro-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    :global(.dark) .miembro-card {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    :global(.dark) .miembro-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    @media (min-width: 768px) {
+        .miembro-card {
+            padding: 1.5rem;
+        }
+    }
+
+    .miembro-avatar {
+        width: 6rem;
+        height: 6rem;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: var(--color-orange);
+        margin-bottom: 1.25rem;
+        border: 3px solid rgba(185, 58, 5, 0.1);
+    }
+
+    @media (min-width: 480px) {
+        .miembro-avatar {
+            width: 7rem;
+            height: 7rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembro-avatar {
+            width: 8rem;
+            height: 8rem;
+            border-width: 4px;
+        }
+    }
+
+    .miembro-avatar img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    .miembro-initials {
+        font-family: var(--font-montserrat);
+        font-weight: 600;
+        font-size: 1.8rem;
+        background: var(--color-orange);
+        color: #ffffff;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    :global(.dark) .miembro-initials {
+        background: var(--color-orange);
+        color: #ffffff;
+    }
+
+    @media (min-width: 480px) {
+        .miembro-initials {
+            font-size: 2.2rem;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembro-initials {
+            font-size: 2.5rem;
+        }
+    }
+
+    .miembro-card h3 {
+        font-family: var(--font-montserrat);
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--color-green-dark);
+        margin: 0 0 0.25rem 0;
+        line-height: 1.3;
+    }
+
+    :global(.dark) .miembro-card h3 {
+        color: var(--color-white);
+    }
+
+    @media (min-width: 480px) {
+        .miembro-card h3 {
+            font-size: 1.15rem;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .miembro-card h3 {
+            font-size: 1.2rem;
+        }
+    }
+
+    .miembro-role {
+        font-family: var(--font-pop);
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--color-orange);
+        margin: 0 0 0.75rem 0;
+    }
+
+    @media (min-width: 480px) {
+        .miembro-role {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+    /* Efecto especial para la tarjeta de Mariana */
+    #mariana-card.highlighted {
+        background: linear-gradient(135deg, rgba(185, 58, 5, 0.1), rgba(24, 64, 20, 0.1));
+        border: 2px solid #B93A05;
+        box-shadow: 0 8px 32px rgba(185, 58, 5, 0.2);
+        animation: marianaPulse 2s ease-in-out;
+    }
+
+    :global(.dark) #mariana-card.highlighted {
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(34, 197, 94, 0.2));
+        border: 2px solid #f97316;
+        box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
+    }
+
+    #mariana-card.highlighted .miembro-avatar {
+        border-color: #B93A05;
+        box-shadow: 0 0 20px rgba(185, 58, 5, 0.3);
+    }
+
+    :global(.dark) #mariana-card.highlighted .miembro-avatar {
+        border-color: #f97316;
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+    }
+
+    #mariana-card.highlighted h3 {
+        color: #B93A05;
+        font-weight: 700;
+    }
+
+    :global(.dark) #mariana-card.highlighted h3 {
+        color: #f97316;
+    }
+
+    @keyframes marianaPulse {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-8px) scale(1.02);
+        }
+    }
+
+    /* Estilos para tarjeta destacada de Leider Solano */
+    #leider-card.highlighted {
+        background: linear-gradient(135deg, rgba(24, 64, 20, 0.1), rgba(185, 58, 5, 0.1));
+        border: 2px solid #184014;
+        box-shadow: 0 8px 32px rgba(24, 64, 20, 0.2);
+        animation: leiderPulse 2s ease-in-out;
+    }
+
+    :global(.dark) #leider-card.highlighted {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(249, 115, 22, 0.2));
+        border: 2px solid #22c55e;
+        box-shadow: 0 8px 32px rgba(34, 197, 94, 0.3);
+    }
+
+    #leider-card.highlighted .miembro-avatar {
+        border-color: #184014;
+        box-shadow: 0 0 20px rgba(24, 64, 20, 0.3);
+    }
+
+    :global(.dark) #leider-card.highlighted .miembro-avatar {
+        border-color: #22c55e;
+        box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+    }
+
+    #leider-card.highlighted h3 {
+        color: #184014;
+        font-weight: 700;
+    }
+
+    :global(.dark) #leider-card.highlighted h3 {
+        color: #22c55e;
+    }
+
+    @keyframes leiderPulse {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-8px) scale(1.02);
+        }
+    }
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si venimos del enlace de la historia
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromParam = urlParams.get('from');
+        const fromMarianaStory = fromParam === 'mariana-story';
+        const fromLeiderStory = fromParam === 'leider-story';
+        
+        // También verificar si venimos del hash (ancla)
+        const isFromAnchor = window.location.hash === '#miembros-fundadores';
+        const isFromLeiderAnchor = window.location.hash === '#leider-solano';
+        
+        // Manejar caso de Mariana Rojas
+        if (fromMarianaStory || isFromAnchor) {
+            const marianaCard = document.getElementById('mariana-card');
+            if (marianaCard) {
+                // Agregar clase de destacado
+                marianaCard.classList.add('highlighted');
+                
+                // Scroll suave a la tarjeta
+                setTimeout(() => {
+                    marianaCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+                
+                // Quitar el efecto después de 5 segundos
+                setTimeout(() => {
+                    marianaCard.classList.remove('highlighted');
+                    
+                    // Limpiar el parámetro de URL
+                    if (fromMarianaStory) {
+                        const newUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState({}, '', newUrl);
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Manejar caso de Leider Solano
+        if (fromLeiderStory || isFromLeiderAnchor) {
+            const leiderCard = document.getElementById('leider-card');
+            if (leiderCard) {
+                // Agregar clase de destacado
+                leiderCard.classList.add('highlighted');
+                
+                // Scroll suave a la tarjeta
+                setTimeout(() => {
+                    leiderCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+                
+                // Quitar el efecto después de 5 segundos
+                setTimeout(() => {
+                    leiderCard.classList.remove('highlighted');
+                    
+                    // Limpiar el parámetro de URL
+                    if (fromLeiderStory) {
+                        const newUrl = window.location.pathname + window.location.hash;
+                        window.history.replaceState({}, '', newUrl);
+                    }
+                }, 5000);
+            }
+        }
+        
+        // También agregar parámetro cuando se haga clic en el enlace desde el evento
+        // Esto se maneja desde la página del evento
+    });
+</script>

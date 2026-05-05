@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test JavaScript del Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #B93A05;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Test del JavaScript del Formulario</h1>
+    
+    <div class="test-section">
+        <h2>1. Verificar que el código JavaScript se carga</h2>
+        <button onclick="testJSLoad()">Probar carga de JS</button>
+        <div id="js-load-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Probar función de mostrar modal</h2>
+        <button onclick="testShowModal()">Mostrar Modal de Éxito (simulado)</button>
+        <div id="modal-test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Probar API endpoint</h2>
+        <button onclick="testAPI()">Probar conexión a API</button>
+        <div id="api-test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Código JavaScript actual</h2>
+        <pre id="js-code"></pre>
+    </div>
+
+    <script>
+        // Cargar el código JavaScript del formulario
+        function loadJS() {
+            return fetch('/scripts/evento-form.js')
+                .then(response => response.text())
+                .then(code => {
+                    document.getElementById('js-code').textContent = code.substring(0, 1000) + '...';
+                    return code;
+                });
+        }
+        
+        function testJSLoad() {
+            loadJS().then(() => {
+                document.getElementById('js-load-result').innerHTML = 
+                    '<span class="success">✓ JavaScript cargado correctamente</span>';
+            }).catch(err => {
+                document.getElementById('js-load-result').innerHTML = 
+                    '<span class="error">✗ Error cargando JavaScript: ' + err + '</span>';
+            });
+        }
+        
+        function testShowModal() {
+            // Simular la función que muestra el modal
+            var modalCode = `
+                // Código para mostrar modal (simulado)
+                var popup = document.getElementById('evento-success-popup');
+                if (popup) {
+                    popup.classList.add('is-visible');
+                    console.log('Modal debería mostrarse');
+                }
+            `;
+            
+            try {
+                eval(modalCode);
+                document.getElementById('modal-test-result').innerHTML = 
+                    '<span class="success">✓ Código de modal ejecutado (ver consola)</span>';
+            } catch (err) {
+                document.getElementById('modal-test-result').innerHTML = 
+                    '<span class="error">✗ Error ejecutando código de modal: ' + err + '</span>';
+            }
+        }
+        
+        function testAPI() {
+            fetch('http://localhost:4324/api/health')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('api-test-result').innerHTML = 
+                        '<span class="success">✓ API conectada: ' + JSON.stringify(data) + '</span>';
+                })
+                .catch(err => {
+                    document.getElementById('api-test-result').innerHTML = 
+                        '<span class="error">✗ Error conectando a API: ' + err + '</span>';
+                });
+        }
+        
+        // Cargar automáticamente el JS al abrir la página
+        window.onload = function() {
+            loadJS();
+            testAPI();
+        };
+    </script>
+</body>
+</html>
