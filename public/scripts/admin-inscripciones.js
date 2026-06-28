@@ -1,5 +1,5 @@
 (function () {
-    var API = window.location.hostname === 'localhost' ? '' : 'https://server.chitaga.tech';
+    var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
     var pageRoot = document.querySelector('.admin-main');
     var form = document.getElementById('admin-auth-form');
     var passwordInput = document.getElementById('admin-password');

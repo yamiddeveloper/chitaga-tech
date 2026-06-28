@@ -1,5 +1,5 @@
 (function () {
-    var API = window.location.hostname === 'localhost' ? '' : 'https://server.chitaga.tech';
+    var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
     var pageRoot = document.querySelector('.att-main');
     var gate = document.getElementById('att-gate');
     var form = document.getElementById('att-auth-form');

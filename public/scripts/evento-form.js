@@ -35,7 +35,7 @@
         btn.disabled = true;
         btn.textContent = 'Enviando...';
         
-        var api = 'https://server.chitaga.tech'; // Actualizado: 2026-04-09
+        var api = 'https://app.chitaga.tech'; // Actualizado: 2026-04-09
         var url = api + '/api/events/' + slug + '/register';
         console.log('URL:', url);
         

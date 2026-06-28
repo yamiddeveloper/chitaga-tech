@@ -1,5 +1,5 @@
 (function () {
-    var API = window.location.hostname === 'localhost' ? '' : 'https://server.chitaga.tech';
+    var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
     var gate = document.getElementById('dash-gate');
     var form = document.getElementById('dash-auth-form');
     var passwordInput = document.getElementById('dash-password');

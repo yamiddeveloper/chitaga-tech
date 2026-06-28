@@ -144,7 +144,7 @@ SQLite con WAL mode y 3 tablas:
 - **Backend:** Node.js/Express con auto-restart (`run-server.sh`)
 - **Tunel:** Cloudflare Tunnel
   - `chitaga.tech` / `www.chitaga.tech` → puerto 4322
-  - `server.chitaga.tech` → puerto 4324
+  - `app.chitaga.tech` → puerto 4324
 
 ## Licencia
 

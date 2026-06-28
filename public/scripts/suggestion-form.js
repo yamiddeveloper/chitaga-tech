@@ -5,7 +5,7 @@
     var topic = form.dataset.topic;
     if (!topic) return;
 
-    var API = window.location.hostname === 'localhost' ? '' : 'https://server.chitaga.tech';
+    var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
 
     function $(id) { return document.getElementById(id); }
 
