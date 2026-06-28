@@ -188,6 +188,7 @@ const app = express();
 
 app.set('trust proxy', 1);
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
