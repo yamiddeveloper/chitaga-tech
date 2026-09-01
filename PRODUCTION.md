@@ -89,7 +89,7 @@ sudo ./stop-production.sh
 - **Formulario:** `http://chitaga.tech/evento/introduccion-programacion/`
 
 ### En Desarrollo
-- **Frontend:** `http://localhost:4321` (con `npm run dev`)
+- **Frontend:** `http://localhost:4323` (con `npm run dev`)
 - **Backend:** `http://localhost:4324`
 - **API Directa:** `http://localhost:4324/api/health`
 

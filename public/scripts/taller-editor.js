@@ -7,7 +7,7 @@
   var sendBtn = document.getElementById('send-btn');
   var feedback = document.getElementById('editor-feedback');
   var editorSection = document.getElementById('editor');
-  var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
+  var API = (location.hostname === 'chitaga.tech' || location.hostname === 'www.chitaga.tech') ? 'https://app.chitaga.tech' : '';
 
   if (!editor || !previewBtn || !previewFrame || !sendBtn || !feedback) return;
 

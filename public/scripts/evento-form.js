@@ -35,7 +35,7 @@
         btn.disabled = true;
         btn.textContent = 'Enviando...';
         
-        var api = 'https://app.chitaga.tech'; // Actualizado: 2026-04-09
+        var api = (location.hostname === 'chitaga.tech' || location.hostname === 'www.chitaga.tech') ? 'https://app.chitaga.tech' : '';
         var url = api + '/api/events/' + slug + '/register';
         console.log('URL:', url);
         

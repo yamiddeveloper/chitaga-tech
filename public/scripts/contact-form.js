@@ -1,5 +1,5 @@
 (function () {
-    var API = window.location.hostname === 'localhost' ? '' : 'https://app.chitaga.tech';
+    var API = (location.hostname === 'chitaga.tech' || location.hostname === 'www.chitaga.tech') ? 'https://app.chitaga.tech' : '';
     var nameExists = false;
     var emailExists = false;
     var nameTimeout, emailTimeout;
