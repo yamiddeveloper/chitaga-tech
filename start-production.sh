@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script para iniciar el sistema completo de producción de Chitagá Tech
 
-cd /home/yamiddev/chitaga-tech
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
 
 echo "================================================"
 echo "CHITAGÁ TECH - SISTEMA DE PRODUCCIÓN"
@@ -48,8 +49,8 @@ echo "4. Configurando nginx..."
 NGINX_CONF="/etc/nginx/sites-available/chitaga-tech"
 NGINX_ENABLED="/etc/nginx/sites-enabled/chitaga-tech"
 
-# Copiar configuración
-cp chitaga-tech-nginx.conf $NGINX_CONF
+# Copiar configuración (ajustando la ruta root a esta instalación)
+sed "s|^\( *root \).*/dist;|\1${SCRIPT_DIR}/dist;|" chitaga-tech-nginx.conf > $NGINX_CONF
 
 # Crear enlace simbólico si no existe
 if [ ! -L $NGINX_ENABLED ]; then

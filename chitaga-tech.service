@@ -5,10 +5,11 @@ Wants=network.target
 
 [Service]
 Type=simple
-User=yamiddev
-Group=yamiddev
-WorkingDirectory=/home/yamiddev/chitaga-tech
+User=yamiddevofic
+Group=yamiddevofic
+WorkingDirectory=/home/yamiddevofic/Projects/yamiddeveloper/chitaga-tech
 Environment=NODE_ENV=production
+EnvironmentFile=-/home/yamiddevofic/Projects/yamiddeveloper/chitaga-tech/.env
 ExecStart=/usr/bin/npm run server
 Restart=always
 RestartSec=10
@@ -25,6 +26,9 @@ ProtectHome=true
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true
+# El proyecto vive bajo /home y escribe su BD SQLite (server/chitaga.db) en el
+# WorkingDirectory: BindPaths lo hace visible y escribible pese a ProtectHome/ProtectSystem.
+BindPaths=/home/yamiddevofic/Projects/yamiddeveloper/chitaga-tech
 
 [Install]
 WantedBy=multi-user.target

@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script para detener el sistema de producción
 
-cd /home/yamiddev/chitaga-tech
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
 
 echo "================================================"
 echo "DETENIENDO SISTEMA DE PRODUCCIÓN"

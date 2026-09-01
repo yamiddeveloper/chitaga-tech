@@ -1,6 +1,7 @@
 #!/bin/bash
 # Auto-restart server with better error handling and port management
-cd /home/yamiddev/chitaga-tech
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
 
 PORT=4324
 MAX_RETRIES=5

@@ -1,7 +1,11 @@
 #!/bin/bash
 # Script de instalación completa para producción
 
-cd /home/yamiddev/chitaga-tech
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
+
+# Usuario propietario del proyecto (quien invocó sudo)
+APP_USER="${SUDO_USER:-$(id -un)}"
 
 echo "================================================"
 echo "INSTALACIÓN COMPLETA - CHITAGÁ TECH"
@@ -27,24 +31,29 @@ echo "3. Configurando Node.js..."
 npm install -g npm@latest
 
 echo "4. Instalando dependencias del proyecto..."
-sudo -u yamiddev npm install
+sudo -u "$APP_USER" npm install
 
 echo "5. Construyendo proyecto..."
-sudo -u yamiddev npm run build
+sudo -u "$APP_USER" npm run build
 
 echo "6. Configurando nginx..."
-cp chitaga-tech-nginx.conf /etc/nginx/sites-available/chitaga-tech
+sed "s|^\( *root \).*/dist;|\1${SCRIPT_DIR}/dist;|" chitaga-tech-nginx.conf > /etc/nginx/sites-available/chitaga-tech
 ln -sf /etc/nginx/sites-available/chitaga-tech /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 
 echo "7. Configurando servicio systemd..."
-cp chitaga-tech.service /etc/systemd/system/
+sed -e "s|^User=.*|User=${APP_USER}|" \
+    -e "s|^Group=.*|Group=${APP_USER}|" \
+    -e "s|^WorkingDirectory=.*|WorkingDirectory=${SCRIPT_DIR}|" \
+    -e "s|^EnvironmentFile=.*|EnvironmentFile=-${SCRIPT_DIR}/.env|" \
+    -e "s|^BindPaths=.*|BindPaths=${SCRIPT_DIR}|" \
+    chitaga-tech.service > /etc/systemd/system/chitaga-tech.service
 systemctl daemon-reload
 systemctl enable chitaga-tech.service
 
 echo "8. Configurando permisos..."
-chown -R yamiddev:yamiddev /home/yamiddev/chitaga-tech
-chmod -R 755 /home/yamiddev/chitaga-tech
+chown -R "$APP_USER":"$APP_USER" "$SCRIPT_DIR"
+chmod -R 755 "$SCRIPT_DIR"
 
 echo "9. Configurando firewall..."
 if command -v ufw >/dev/null 2>&1; then

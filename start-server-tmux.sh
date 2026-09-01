@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script para iniciar el servidor en tmux automáticamente
 
-cd /home/yamiddev/chitaga-tech
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
 
 # Check if tmux is installed
 if ! command -v tmux &> /dev/null; then
@@ -21,7 +22,7 @@ fi
 
 # Create new tmux session and run the server
 echo "Iniciando servidor Chitaga Tech en tmux..."
-tmux new-session -d -s chitaga-server -c /home/yamiddev/chitaga-tech
+tmux new-session -d -s chitaga-server -c "$SCRIPT_DIR"
 
 # Send commands to tmux session
 tmux send-keys -t chitaga-server 'echo "================================================"' C-m

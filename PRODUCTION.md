@@ -52,7 +52,7 @@ sudo ./stop-production.sh
 ## 📁 Estructura de Archivos
 
 ```
-/home/yamiddev/chitaga-tech/
+<directorio-del-proyecto>/
 ├── dist/                          # Build de Astro (frontend)
 ├── server/                        # Backend Node.js
 │   ├── index.js                   # Servidor principal
@@ -206,7 +206,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 # Actualizar Node.js
 sudo npm install -g npm@latest
-sudo -u yamiddev npm update
+sudo -u "$USER" npm update
 ```
 
 ## 📊 Monitoreo
@@ -227,7 +227,7 @@ journalctl -u chitaga-tech -f
 free -h
 
 # Uso de CPU
-top -u yamiddev
+top -u "$USER"
 
 # Espacio en disco
 df -h
@@ -239,13 +239,13 @@ Para actualizar el sistema:
 
 1. **Actualizar código:**
 ```bash
-cd /home/yamiddev/chitaga-tech
+cd <directorio-del-proyecto>
 git pull origin main
 ```
 
 2. **Reconstruir frontend:**
 ```bash
-sudo -u yamiddev npm run build
+sudo -u "$USER" npm run build
 ```
 
 3. **Reiniciar servicios:**

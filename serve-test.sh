@@ -16,7 +16,7 @@ fi
 
 echo ""
 echo "2. Iniciando servidor web para frontend..."
-cd /home/yamiddev/chitaga-tech
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" || exit 1
 
 # Matar cualquier servidor previo en puerto 8080
 pkill -f "http.server 8080" 2>/dev/null
